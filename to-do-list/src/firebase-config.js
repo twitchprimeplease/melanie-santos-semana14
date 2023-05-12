@@ -1,14 +1,34 @@
-require('dotenv').config();
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: process.env.FB_API_KEY,
-    authDomain: process.env.FB_AUTHDOMAIN,
-    projectId: process.env.FB_PROJECT_ID,
-    storageBucket: process.env.FB_STORAGE_BUCKET,
-    messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-    appId: process.env.FB_APP_ID
+ //nada por aqui, nada por alla
 };
 
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export async function getTasks() {
+
+    const tasks = [];
+
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    querySnapshot.forEach((doc) => {
+        tasks.push(doc.data());
+    });
+
+    return tasks;
+
+}
+
+export async function addTask(taskTitle){
+    try {
+        const docRef = await addDoc(collection(db, "tasks"), {
+            title:taskTitle,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+}
