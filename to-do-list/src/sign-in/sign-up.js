@@ -1,5 +1,6 @@
+import { createUser } from '../firebase-config.js';
 
-const inputElements = document.querySelector('User-info').querySelectorAll('input');
+const inputElements = document.querySelector('#user-info').querySelectorAll('input');
 
 const formButton = document.querySelector('#form-button');
 formButton.addEventListener('click', (e) => {
@@ -7,6 +8,7 @@ formButton.addEventListener('click', (e) => {
 });
 
 function signUp(e) {
+    
     e.preventDefault();
     let userInfo = {}
     inputElements.forEach(element => {
@@ -18,8 +20,6 @@ function signUp(e) {
             alert("Please fill all the items")
         }
     });
-
-    
-
     console.log(userInfo);
+    createUser(userInfo);
 }

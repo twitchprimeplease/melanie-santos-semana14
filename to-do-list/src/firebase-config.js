@@ -1,11 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 
 const firebaseConfig = {
- //nada por aqui, nada por alla
+
+
 
 };
-
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -55,4 +56,54 @@ export async function editDocument(title, id) {
         title: title,
         completed: true,
     });
+}
+
+
+export async function logInUser(userInfo) {
+
+    try {
+        console.log(userInfo);
+        const userCredential = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.pass)
+        .then((userCredential) => {
+            console.log(userCredential);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
+
+    }
+    catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(error.message)
+    }
+
+}
+
+export async function createUser(userInfo) {
+
+    try {
+        console.log(userInfo);
+        const userCredential = await createUserWithEmailAndPassword(auth, userInfo.email, userInfo.pass)
+        // Signed in
+        const user = userCredential.user;
+
+        // crear usuario en DB
+
+        const dbInfo = {
+            email: userInfo.email,
+            name: userInfo.name,
+            pass: userInfo.pass
+        }
+
+        await addUserToDb(dbInfo, user.uid)
+        console.log(4)
+    }
+    catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(error.message)
+    }
+
 }
