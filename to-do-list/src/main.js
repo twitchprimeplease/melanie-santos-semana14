@@ -1,12 +1,14 @@
 import './style.css'
-import { obtainTasks, addTask, editDocument } from './firebase-config.js'
+import { obtainTasks, addTask, editDocument, getout } from './firebase-config.js'
+
 
 let tasks = []
 await renderTasks();
 
 const buttonTask = document.getElementById('create-todo')
 buttonTask.addEventListener('click', async ()=> await handleClick())
-
+const getOutButton = document.querySelector('#get-out');
+getOutButton.addEventListener('click', async ()=> await getout())
 
 async function renderTasks() {
 

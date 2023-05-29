@@ -1,15 +1,22 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const firebaseConfig = {
 
-
+    apiKey: "AIzaSyCMHiLkIkfHHV1cSUHiIIkdy_cudE6NPDI",
+    authDomain: "to-do-list-17d2c.firebaseapp.com",
+    projectId: "to-do-list-17d2c",
+    storageBucket: "to-do-list-17d2c.appspot.com",
+    messagingSenderId: "740227145283",
+    appId: "1:740227145283:web:fc5d5fb798714afe8f7ef6"
 
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const auth = getAuth();
 
 export async function getTasks() {
 
@@ -66,11 +73,11 @@ export async function logInUser(userInfo) {
         const userCredential = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.pass)
         .then((userCredential) => {
             console.log(userCredential);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-          });
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
 
     }
     catch (error) {
@@ -106,4 +113,13 @@ export async function createUser(userInfo) {
         alert(error.message)
     }
 
+}
+
+export async function getout(){
+
+signOut(auth).then(() => {
+  // Sign-out successful.
+}).catch((error) => {
+  // An error happened.
+});z
 }
